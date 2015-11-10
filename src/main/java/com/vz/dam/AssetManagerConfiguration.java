@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
-@EnableMongoRepositories(basePackages = "com.mongodb.repository")
+@EnableMongoRepositories(basePackages = "com.vz.dam.mongodb.repository")
 @EnableMongoAuditing(modifyOnCreate = false)
 public class AssetManagerConfiguration extends SpringBootServletInitializer {
 

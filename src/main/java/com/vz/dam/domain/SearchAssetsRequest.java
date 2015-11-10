@@ -8,24 +8,22 @@ package com.vz.dam.domain;
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for MediainfoType complex type.
+ * <p>Java class for SearchAssetsRequest complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="MediainfoType">
+ * &lt;complexType name="SearchAssetsRequest">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element ref="{}File"/>
+ *         &lt;element name="customerId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="assetName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
- *       &lt;attribute name="version" type="{http://www.w3.org/2001/XMLSchema}string" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -34,65 +32,63 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MediainfoType", propOrder = {
-    "file"
+@XmlType(name = "SearchAssetsRequest", propOrder = {
+    "customerId",
+    "assetName"
 })
-public class MediainfoType
+public class SearchAssetsRequest
     implements Serializable
 {
 
-	private static final long serialVersionUID = 6045268835409654456L;
-	@XmlElement(name = "File", required = true)
-    protected FileType file;
-    @XmlAttribute(name = "version")
-    protected String version;
+    protected String customerId;
+    protected String assetName;
 
     /**
-     * Gets the value of the file property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link FileType }
-     *     
-     */
-    public FileType getFile() {
-        return file;
-    }
-
-    /**
-     * Sets the value of the file property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link FileType }
-     *     
-     */
-    public void setFile(FileType value) {
-        this.file = value;
-    }
-
-    /**
-     * Gets the value of the version property.
+     * Gets the value of the customerId property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getVersion() {
-        return version;
+    public String getCustomerId() {
+        return customerId;
     }
 
     /**
-     * Sets the value of the version property.
+     * Sets the value of the customerId property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setVersion(String value) {
-        this.version = value;
+    public void setCustomerId(String value) {
+        this.customerId = value;
+    }
+
+    /**
+     * Gets the value of the assetName property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getAssetName() {
+        return assetName;
+    }
+
+    /**
+     * Sets the value of the assetName property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setAssetName(String value) {
+        this.assetName = value;
     }
 
 }

@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.vz.dam.mongodb.repository.AssetWrapperRepository;
-import com.vz.dam.mongodb.repository.MediainfoTypeRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = AssetManagerConfiguration.class)
@@ -23,8 +22,7 @@ import com.vz.dam.mongodb.repository.MediainfoTypeRepository;
 @ActiveProfiles("local")
 public class AssetManagerConfigurationTest {
   
-  @Autowired protected MediainfoTypeRepository mediainfoTypeRepository;
-  @Autowired protected AssetWrapperRepository assetWrapperRepository;
+  @Autowired protected AssetWrapperRepository assetsDetailsRepository;
 
   @Autowired private WebApplicationContext context;
   protected MockMvc mockMvc;

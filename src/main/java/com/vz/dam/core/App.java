@@ -6,14 +6,12 @@ import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import com.vz.dam.config.SpringMongoConfig;
 import com.vz.dam.model.DAMAsset;
@@ -29,8 +27,6 @@ import com.vz.dam.repository.AssetWrapperRepository;
  * @author rajakolli
  * @version 1:0
  */
-@EnableMongoRepositories
-@Configuration
 public class App {
     
 
@@ -47,7 +43,7 @@ public class App {
                 .getBean("assetWrapperRepository");
 
         // drop collection example
-        // mongoOperations.dropCollection(DAMAssetsDetails.class);
+        mongoOperations.dropCollection(DAMAssetsDetails.class);
 
         // save Data
         saveData(assetsDetailsRepository);
@@ -82,7 +78,7 @@ public class App {
         System.out.println("3. updatedAsset : " + updatedAsset);
 
         // delete
-        mongoOperations.remove(searchMasterAsset, DAMAssetsDetails.class);
+        //mongoOperations.remove(searchMasterAsset, DAMAssetsDetails.class);
 
         // List, it should be empty now.
         List<DAMAssetsDetails> listAssets = mongoOperations

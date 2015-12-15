@@ -1,6 +1,5 @@
 package com.vz.dam.config;
 
-import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,6 +39,7 @@ import com.vz.dam.auditor.MongoAuditorProvider;
 public class SpringMongoConfig extends AbstractMongoConfiguration {
     
     private static final String DATABASE = "digitalbridge";
+    private static final int PRIMARYPORT = 27017;
 
     /** {@inheritDoc} */
     @Override
@@ -51,7 +51,7 @@ public class SpringMongoConfig extends AbstractMongoConfiguration {
     @Override
     @Bean
     public Mongo mongo() throws Exception {
-        return localMongoClient();
+        return mongoClient();
     }
     
     /** {@inheritDoc} */
@@ -66,8 +66,8 @@ public class SpringMongoConfig extends AbstractMongoConfiguration {
      * @return a {@link com.mongodb.MongoClient} object.
      */
     @Bean
-    public MongoClient localMongoClient() {
-        List<MongoCredential> credentialsList = new ArrayList<MongoCredential>();
+    public MongoClient mongoClient() {
+        /*List<MongoCredential> credentialsList = new ArrayList<MongoCredential>();
         credentialsList.add(MongoCredential.createCredential("digitalbridgeAdmin",
                 DATABASE, "password".toCharArray()));
         ServerAddress primary = new ServerAddress(
@@ -79,7 +79,17 @@ public class SpringMongoConfig extends AbstractMongoConfiguration {
         List<ServerAddress> seeds = Arrays.asList(primary, secondary, teritory);
         MongoClientOptions mongoClientOptions = MongoClientOptions.builder()
                 .requiredReplicaSetName("digitalBridgeReplica").build();
+        return new MongoClient(seeds, credentialsList, mongoClientOptions);*/
+        
+        List<MongoCredential> credentialsList = new ArrayList<MongoCredential>();
+        credentialsList.add(MongoCredential.createCredential("digitalbridgeAdmin", DATABASE, "fD4Krim9".toCharArray()));
+        ServerAddress primary = new ServerAddress("152.190.138.70", PRIMARYPORT);
+        ServerAddress secondary = new ServerAddress("152.190.138.62", PRIMARYPORT);
+        ServerAddress teritory = new ServerAddress("152.190.138.63", PRIMARYPORT);
+        List<ServerAddress> seeds = Arrays.asList(primary, secondary, teritory);
+        MongoClientOptions mongoClientOptions = MongoClientOptions.builder().requiredReplicaSetName("demo1").build();
         return new MongoClient(seeds, credentialsList, mongoClientOptions);
+        
     }
 
     /**
@@ -117,7 +127,7 @@ public class SpringMongoConfig extends AbstractMongoConfiguration {
      */
     @Bean
     public MongoDbFactory mongoDbFactory() {
-        return new SimpleMongoDbFactory(localMongoClient(), getDatabaseName());
+        return new SimpleMongoDbFactory(mongoClient(), getDatabaseName());
     }
     
     @Bean

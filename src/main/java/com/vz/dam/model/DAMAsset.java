@@ -13,6 +13,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
+
 
 /**
  * <p>Java class for DAMAsset complex type.
@@ -71,6 +73,8 @@ public class DAMAsset
 /*    @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar dateCreated;*/
     protected Date dateCreated;
+    
+    @DBRef
     protected MediainfoType mediaInfo;
 
     /**

@@ -9,4 +9,5 @@ public interface AssetWrapperRepository
     
     DAMAssetsDetails findByMasterAssetName(String assetName);
     
+    DAMAssetsDetails findByAssetDetailAssetName(String assetName);
 }

@@ -12,6 +12,9 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 
 /**
  * <p>Java class for MediainfoType complex type.
@@ -37,15 +40,26 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "MediainfoType", propOrder = {
     "file"
 })
+@Document(collection="mediainfo")
 public class MediainfoType
     implements Serializable
 {
 
 	private static final long serialVersionUID = 6045268835409654456L;
+	@Id
+    private String id;
 	@XmlElement(name = "File", required = true)
     protected FileType file;
     @XmlAttribute(name = "version")
     protected String version;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     /**
      * Gets the value of the file property.

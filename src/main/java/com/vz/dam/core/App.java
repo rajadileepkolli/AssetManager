@@ -20,6 +20,7 @@ import com.vz.dam.model.FileType;
 import com.vz.dam.model.MediainfoType;
 import com.vz.dam.model.TrackType;
 import com.vz.dam.repository.AssetWrapperRepository;
+import com.vz.dam.repository.MediaInfoRepository;
 
 /**
  * <p>App class.</p>
@@ -41,29 +42,23 @@ public class App {
         MongoOperations mongoOperations = (MongoOperations) ctx.getBean("mongoTemplate");
         AssetWrapperRepository assetsDetailsRepository = (AssetWrapperRepository) ctx
                 .getBean("assetWrapperRepository");
+        MediaInfoRepository mediaInfoRepository = (MediaInfoRepository) ctx.getBean("mediaInfoRepository");
 
         // drop collection example
-        mongoOperations.dropCollection(DAMAssetsDetails.class);
+        //mongoOperations.dropCollection(DAMAssetsDetails.class);
 
         // save Data
-        saveData(assetsDetailsRepository);
+        saveData(assetsDetailsRepository,mediaInfoRepository);
 
         // find saved asset again
-        DAMAssetsDetails res = assetsDetailsRepository.findByMasterAssetName("Master Asset");
-        System.out.println(res);
-
-        /** OR */
+        DAMAssetsDetails output = assetsDetailsRepository.findByAssetDetailAssetName("SuperMan.mov");
 
         // query to search master Asset
-        Query searchMasterAsset = new Query(Criteria.where("masterAssetName").is("Master Asset"));
-
-        // find the saved asset again.
-        DAMAssetsDetails savedAsset = mongoOperations.findOne(searchMasterAsset, DAMAssetsDetails.class);
-        System.out.println("2. find - savedAsset : " + savedAsset);
+        Query searchMasterAsset = new Query(Criteria.where("_id").is(output.getId()));
 
         DAMAsset damAsset = new DAMAsset();
-        damAsset.setAssetId(savedAsset.getMasterAssetId() + "_2");
-        damAsset.setAssetName("Super.mp4");
+        damAsset.setAssetId(output.getMasterAssetId() + "_2");
+        damAsset.setAssetName("SuperMan.mp4");
         damAsset.setAssetType("CDN");
         damAsset.setStoragePath("/vol/customer2/123/ingestIn/");
         damAsset.setCheckSum("123sdfwe23sdf");
@@ -77,9 +72,6 @@ public class App {
 
         System.out.println("3. updatedAsset : " + updatedAsset);
 
-        // delete
-        //mongoOperations.remove(searchMasterAsset, DAMAssetsDetails.class);
-
         // List, it should be empty now.
         List<DAMAssetsDetails> listAssets = mongoOperations
                 .findAll(DAMAssetsDetails.class);
@@ -89,17 +81,17 @@ public class App {
         ((AbstractApplicationContext) ctx).registerShutdownHook();
     }
 
-    private static void saveData(AssetWrapperRepository assetsDetailsRepository) {
+    private static void saveData(AssetWrapperRepository assetsDetailsRepository, MediaInfoRepository mediaInfoRepository) {
         DAMAssetsDetails assetDetails = new DAMAssetsDetails();
 	    DAMAssetsDetails dAMAssetsDetails = assetsDetailsRepository.save(assetDetails);
 	    
 	    dAMAssetsDetails.setMasterAssetId(dAMAssetsDetails.getId());
-	    dAMAssetsDetails.setMasterAssetName("Master Asset");
+	    dAMAssetsDetails.setMasterAssetName("Master Asset 1");
 	    
 	    List<DAMAsset> listDAMAsset = new ArrayList<DAMAsset>();
 	    DAMAsset damAsset = new DAMAsset();
 	    damAsset.setAssetId(dAMAssetsDetails.getMasterAssetId() + "_1");
-	    damAsset.setAssetName("Super.mov");
+	    damAsset.setAssetName("SuperMan.mov");
 	    damAsset.setAssetType("Original");
 	    damAsset.setStoragePath("/vol/customer2/123/ingestOut/");
 	    damAsset.setCheckSum("123sdfwe23sdf");
@@ -116,7 +108,8 @@ public class App {
 	    fileType.setTrack(track);
 	    mediainfoType.setVersion("1");
 	    mediainfoType.setFile(fileType);
-	    damAsset.setMediaInfo(mediainfoType);
+	    MediainfoType insertedMediaInfoType = mediaInfoRepository.save(mediainfoType);
+	    damAsset.setMediaInfo(insertedMediaInfoType);
 	    listDAMAsset.add(damAsset);
 
 	    dAMAssetsDetails.setAssetDetail(listDAMAsset);
